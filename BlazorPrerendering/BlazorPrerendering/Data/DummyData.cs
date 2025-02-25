@@ -1,4 +1,4 @@
-﻿using BlazorPrerendering.Models;
+﻿using BlazorPrerendering.Client.Models;
 
 namespace BlazorPrerendering.Data;
 

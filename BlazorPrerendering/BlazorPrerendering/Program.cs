@@ -1,6 +1,5 @@
 using BlazorPrerendering.Components;
 using BlazorPrerendering.Data;
-using BlazorPrerendering.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +33,9 @@ app.MapRazorComponents<App>()
     .AddInteractiveWebAssemblyRenderMode()
     .AddAdditionalAssemblies(typeof(BlazorPrerendering.Client._Imports).Assembly);
 
-app.MapGet("/api/Books", () => DummyData.Books);
+app.MapGet("/api/Books", () =>
+{
+    return DummyData.Books;
+});
 
 app.Run();
