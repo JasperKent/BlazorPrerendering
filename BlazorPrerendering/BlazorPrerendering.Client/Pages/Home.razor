@@ -1,0 +1,63 @@
+﻿@page "/"
+@using BlazorPrerendering.Models
+@inject HttpClient HttpClient
+
+
+<PageTitle>Home</PageTitle>
+
+@if (_books is null)
+{
+    <p>Loading ...</p>
+}
+else
+{
+    <h1>Here are some books:</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Year</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var book in _books)
+            {
+                <tr>
+                    <td>@book.Title</td>
+                    <td>@book.Year</td>
+                    <td><button @onclick="()=>ShowDetails(book)">Details</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@if(_detail is not null)
+{
+    <fieldset>
+        <legend>
+            @_detail.Title
+        </legend>
+        <section>
+            This book was published in @_detail.Year
+        </section>
+    </fieldset>
+}
+
+@code{
+    private IEnumerable<Book>? _books = null;
+    private Book? _detail = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        _books = await HttpClient.GetFromJsonAsync<IEnumerable<Book>>("/api/books");
+    }
+
+    private void ShowDetails(Book book)
+    {
+        _detail = book;
+    }
+}
