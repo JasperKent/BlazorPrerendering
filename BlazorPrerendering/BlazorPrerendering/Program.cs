@@ -38,4 +38,9 @@ app.MapGet("/api/Books", () =>
     return DummyData.Books;
 });
 
+app.MapGet("/api/Authors", () =>
+{
+    return DummyData.Authors;
+});
+
 app.Run();
