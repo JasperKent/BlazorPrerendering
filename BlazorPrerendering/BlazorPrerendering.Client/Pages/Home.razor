@@ -1,7 +1,8 @@
 ﻿@page "/"
 @using BlazorPrerendering.Client.Models
+@implements IDisposable
 @inject HttpClient HttpClient
-
+@inject PersistentComponentState ComponentState
 
 <PageTitle>Home</PageTitle>
 
@@ -26,7 +27,7 @@ else
                 <tr>
                     <td>@book.Title</td>
                     <td>@book.Year</td>
-                    <td><button @onclick="()=>ShowDetails(book)">Details</button></td>
+                    <td><button disabled="@(!_enabled)" @onclick="()=>ShowDetails(book)">Details</button></td>
                 </tr>
             }
         </tbody>
@@ -48,16 +49,38 @@ else
 @code{
     private IEnumerable<Book>? _books = null;
     private Book? _detail = null;
+    private PersistingComponentStateSubscription? _subscription;
+    private bool _enabled;
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
 
-        _books = await HttpClient.GetFromJsonAsync<IEnumerable<Book>>("/api/books");
+        _subscription = ComponentState.RegisterOnPersisting(PersistData);
+
+        if (ComponentState.TryTakeFromJson<IEnumerable<Book>>("books", out var books))
+            _books = books;
+        else
+            _books = await HttpClient.GetFromJsonAsync<IEnumerable<Book>>("/api/books");
+
+        if(OperatingSystem.IsBrowser())
+            _enabled = true;
+    }
+
+    private Task PersistData()
+    {
+        ComponentState.PersistAsJson("books", _books);
+
+        return Task.CompletedTask;
     }
 
     private void ShowDetails(Book book)
     {
         _detail = book;
+    }
+
+    public void Dispose()
+    {
+        _subscription?.Dispose();
     }
 }
