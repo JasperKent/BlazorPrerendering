@@ -1,18 +1,19 @@
 ﻿@page "/"
 @using BlazorPrerendering.Client.Models
+@using BlazorPrerendering.Client.Services
 @implements IDisposable
 @inject HttpClient HttpClient
-@inject PersistentComponentState ComponentState
+@inject IPersistenceService Persistor
 
 <PageTitle>Home</PageTitle>
 
-@if (_books is null)
+@if (_books is null || _authors is null)
 {
     <p>Loading ...</p>
 }
 else
 {
-    <h1>Here are some books:</h1>
+    <h1>Here are some books and authors:</h1>
     <table>
         <thead>
             <tr>
@@ -33,7 +34,7 @@ else
         </tbody>
     </table>
 
-@*     <table>
+    <table>
         <thead>
             <tr>
                 <th>First Name</th>
@@ -49,7 +50,7 @@ else
                 </tr>
             }
         </tbody>
-    </table> *@
+    </table>
 }
 
 @if(_detail is not null)
@@ -66,6 +67,7 @@ else
 
 @code{
     private IEnumerable<Book>? _books = null;
+    private IEnumerable<Author>? _authors = null;
     private Book? _detail = null;
     private PersistingComponentStateSubscription? _subscription;
     private bool _enabled;
@@ -74,22 +76,15 @@ else
     {
         await base.OnInitializedAsync();
 
-        _subscription = ComponentState.RegisterOnPersisting(PersistData);
-
-        if (ComponentState.TryTakeFromJson<IEnumerable<Book>>("books", out var books))
-            _books = books;
-        else
-            _books = await HttpClient.GetFromJsonAsync<IEnumerable<Book>>("/api/books");
+        _subscription = await Persistor
+                 .Register(books => _books = books, 
+                           async () => await HttpClient.GetFromJsonAsync<IEnumerable<Book>>("/api/books"))
+                 .Register(authors => _authors = authors, 
+                           async () => await HttpClient.GetFromJsonAsync<IEnumerable<Author>>("/api/authors"))
+                 .Build();
 
         if(OperatingSystem.IsBrowser())
             _enabled = true;
-    }
-
-    private Task PersistData()
-    {
-        ComponentState.PersistAsJson("books", _books);
-
-        return Task.CompletedTask;
     }
 
     private void ShowDetails(Book book)

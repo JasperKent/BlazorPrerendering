@@ -1,3 +1,4 @@
+using BlazorPrerendering.Client.Services;
 using BlazorPrerendering.Components;
 using BlazorPrerendering.Data;
 
@@ -6,6 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveWebAssemblyComponents();
+
+builder.Services.AddTransient<IPersistenceService, PersistenceService>();
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7135") });
 
