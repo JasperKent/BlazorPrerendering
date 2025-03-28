@@ -2,7 +2,7 @@
 @using BlazorPrerendering.Client.Models
 @using BlazorPrerendering.Client.Services
 @implements IDisposable
-@inject HttpClient HttpClient
+@inject IApiService ApiService
 @inject IPersistenceService Persistor
 
 <PageTitle>Home</PageTitle>
@@ -78,9 +78,9 @@ else
 
         _subscription = await Persistor
                  .Register(books => _books = books, 
-                           async () => await HttpClient.GetFromJsonAsync<IEnumerable<Book>>("/api/books"))
+                           () => ApiService.GetBooks())
                  .Register(authors => _authors = authors, 
-                           async () => await HttpClient.GetFromJsonAsync<IEnumerable<Author>>("/api/authors"))
+                           () => ApiService.GetAuthors())
                  .Build();
 
         if(OperatingSystem.IsBrowser())

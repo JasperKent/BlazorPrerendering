@@ -1,6 +1,7 @@
 using BlazorPrerendering.Client.Services;
 using BlazorPrerendering.Components;
 using BlazorPrerendering.Data;
+using BlazorPrerendering.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +11,7 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddTransient<IPersistenceService, PersistenceService>();
 
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7135") });
+builder.Services.AddScoped<IApiService, LocalDataService>();
 
 var app = builder.Build();
 
@@ -36,14 +37,14 @@ app.MapRazorComponents<App>()
     .AddInteractiveWebAssemblyRenderMode()
     .AddAdditionalAssemblies(typeof(BlazorPrerendering.Client._Imports).Assembly);
 
-app.MapGet("/api/Books", () =>
+app.MapGet("/api/Books", (IApiService dataSource) =>
 {
-    return DummyData.Books;
+    return dataSource.GetBooks();
 });
 
-app.MapGet("/api/Authors", () =>
+app.MapGet("/api/Authors", (IApiService dataSource) =>
 {
-    return DummyData.Authors;
+    return dataSource.GetAuthors();
 });
 
 app.Run();
