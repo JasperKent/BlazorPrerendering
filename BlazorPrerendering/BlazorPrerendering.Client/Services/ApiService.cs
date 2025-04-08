@@ -1,4 +1,4 @@
-﻿using BlazorPrerendering.Client.Models;
+﻿using BlazorPrerendering.Data.Models;
 using System.Net.Http.Json;
 
 namespace BlazorPrerendering.Client.Services

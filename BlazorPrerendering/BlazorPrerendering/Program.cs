@@ -1,6 +1,5 @@
 using BlazorPrerendering.Client.Services;
 using BlazorPrerendering.Components;
-using BlazorPrerendering.Data;
 using BlazorPrerendering.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,22 +28,11 @@ else
 
 app.UseHttpsRedirection();
 
-
 app.UseAntiforgery();
 
 app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveWebAssemblyRenderMode()
     .AddAdditionalAssemblies(typeof(BlazorPrerendering.Client._Imports).Assembly);
-
-app.MapGet("/api/Books", (IApiService dataSource) =>
-{
-    return dataSource.GetBooks();
-});
-
-app.MapGet("/api/Authors", (IApiService dataSource) =>
-{
-    return dataSource.GetAuthors();
-});
 
 app.Run();

@@ -1,6 +1,6 @@
 ﻿using BlazorPrerendering.Data.Models;
 
-namespace BlazorPrerendering.Data;
+namespace BlazorPrerendering.Api.Data;
 
 public class DummyData
 {

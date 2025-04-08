@@ -1,6 +1,4 @@
-﻿using BlazorPrerendering.Client.Models;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
+﻿using Microsoft.AspNetCore.Components;
 
 namespace BlazorPrerendering.Client.Services
 {

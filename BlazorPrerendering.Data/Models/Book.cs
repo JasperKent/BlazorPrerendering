@@ -1,4 +1,4 @@
-﻿namespace BlazorPrerendering.Client.Models;
+﻿namespace BlazorPrerendering.Data.Models;
 
 public class Book
 {

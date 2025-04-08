@@ -1,7 +1,7 @@
-﻿using BlazorPrerendering.Client.Models;
-using BlazorPrerendering.Client.Pages;
+﻿using BlazorPrerendering.Client.Pages;
 using BlazorPrerendering.Client.Services;
 using BlazorPrerendering.Client.Tests.Mocks;
+using BlazorPrerendering.Data.Models;
 using Bunit;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
@@ -37,7 +37,7 @@ public class HomeTests : TestContext
         };
 
         _apiService.GetBooks().Returns(books);
-        _apiService.GetAuthors().Returns(Array.Empty<Author>());
+        _apiService.GetAuthors().Returns([]);
 
         var component = RenderComponent<Home>();
 
