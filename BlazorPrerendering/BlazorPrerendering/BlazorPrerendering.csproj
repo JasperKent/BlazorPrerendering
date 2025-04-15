@@ -9,6 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\BlazorPrerendering.Client\BlazorPrerendering.Client.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.2" />
+    <PackageReference Include="Yarp.ReverseProxy" Version="2.3.0" />
   </ItemGroup>
 
 </Project>

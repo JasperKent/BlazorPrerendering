@@ -1,6 +1,5 @@
 using BlazorPrerendering.Client.Services;
 using BlazorPrerendering.Components;
-using BlazorPrerendering.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +9,12 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddTransient<IPersistenceService, PersistenceService>();
 
-builder.Services.AddScoped<IApiService, LocalDataService>();
+builder.Services.AddHttpClient<IApiService, ApiService>(
+        client => client.BaseAddress = new Uri(builder.Configuration["api"] ?? throw new InvalidOperationException("Api not in config"))
+    );
+
+builder.Services.AddReverseProxy()
+    .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
 
 var app = builder.Build();
 
@@ -27,6 +31,8 @@ else
 }
 
 app.UseHttpsRedirection();
+
+app.MapReverseProxy();
 
 app.UseAntiforgery();
 
