@@ -4,38 +4,34 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
-
-//builder.Services.AddCors(options =>
-//{
-//    options.AddPolicy("CorsPolicy",
-//        builder =>
-//        {
-//            builder.AllowAnyOrigin()
-//                   .AllowAnyMethod()
-//                   .AllowAnyHeader();
-//        });
-//});
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
 
-//app.UseCors("CorsPolicy");
-
-app.MapGet("/api/Books", () =>
+app.MapGet("/api/Books", (ILoggerFactory loggerFactory) =>
 {
+    loggerFactory
+        .CreateLogger("MinimalApi")
+        .LogInformation("Get for Books called");
+
     return DummyData.Books;
 });
 
-app.MapGet("/api/Authors", () =>
+app.MapGet("/api/Authors", (ILoggerFactory loggerFactory) =>
 {
+    loggerFactory
+        .CreateLogger("MinimalApi")
+        .LogInformation("Get for Authors called");
+
     return DummyData.Authors;
 });
 
