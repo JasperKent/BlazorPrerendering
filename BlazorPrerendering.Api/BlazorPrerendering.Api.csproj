@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BlazorPrerendering.Data\BlazorPrerendering.Data.csproj" />
+    <ProjectReference Include="..\BlazorPrerendering.ServiceDefaults\BlazorPrerendering.ServiceDefaults.csproj" />
   </ItemGroup>
 
 </Project>
