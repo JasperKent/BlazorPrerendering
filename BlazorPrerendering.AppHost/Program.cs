@@ -3,6 +3,7 @@ var builder = DistributedApplication.CreateBuilder(args);
 var api = builder.AddProject<Projects.BlazorPrerendering_Api>("blazorprerendering-api");
 
 var host = builder.AddProject<Projects.BlazorPrerendering>("blazorprerendering")
+                  .WithExternalHttpEndpoints()
                   .WithReference(api)
                   .WaitFor(api);
 
