@@ -6,15 +6,15 @@ public class DummyData
 {
     public static List<Book> Books { get; } =
     [
-        new () { Id = 1, Title = "Emma", Year = 1816 },
-        new () { Id = 2, Title = "Mansfield Park", Year = 1814 },
-        new () { Id = 3, Title = "Dr No", Year = 1958 },
-        new () { Id = 4, Title = "Goldfinger", Year = 1959 }
+        new () { Title = "Emma", Year = 1816 },
+        new () { Title = "Mansfield Park", Year = 1814 },
+        new () { Title = "Dr No", Year = 1958 },
+        new () { Title = "Goldfinger", Year = 1959 }
     ];
 
     public static List<Author> Authors { get; } =
     [
-        new () { Id = 1, FirstName = "Jane", LastName = "Austen" },
-        new () { Id = 2, FirstName = "Ian", LastName = "Fleming" }
+        new () { FirstName = "Jane", LastName = "Austen" },
+        new () { FirstName = "Ian", LastName = "Fleming" }
     ];
 }
