@@ -1,0 +1,38 @@
+﻿@page "/createauthor"
+@using BlazorPrerendering.Data.Models
+@using BlazorPrerendering.Client.Services
+@inject IApiService ApiService
+
+<h3>Create Author</h3>
+
+<EditForm Model="_author" OnValidSubmit="Submit">
+    <fieldset>
+        <legend>Author Details</legend>
+        <div>
+            <label for="firstName">First Name:</label>
+            <InputText id="firstName"  @bind-Value="_author.FirstName" />
+        </div>
+        <div>
+            <label for="lastName">Last Name:</label>
+            <InputText id="lastName" @bind-Value="_author.LastName" />
+        </div>
+        <button type="submit">Create Author</button>
+    </fieldset>
+</EditForm>
+
+@if(_message is not null)
+{
+    <p>@_message</p>
+}
+
+@code {
+    private Author _author = new Author { FirstName = "", LastName = "" };
+    string? _message;
+
+    private async Task Submit()
+    {
+        var result = await ApiService.CreateAuthor(_author);
+
+        _message = $"Author created with id {result.Id}";
+    }
+}

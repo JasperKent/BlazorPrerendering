@@ -1,4 +1,6 @@
 using BlazorPrerendering.Api.Data;
+using BlazorPrerendering.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +40,19 @@ app.MapGet("/api/Authors", (ILoggerFactory loggerFactory, LibraryContext db) =>
         .LogInformation("Get for Authors called");
 
     return db.Authors;
+});
+
+app.MapPost("/api/Authors", async (Author author, ILoggerFactory loggerFactory, LibraryContext db) =>
+{
+    loggerFactory
+        .CreateLogger("MinimalApi")
+        .LogInformation("Post for Authors called");
+        
+    db.Authors.Add(author);
+    
+    await db.SaveChangesAsync();
+    
+    return Results.Created($"/api/Authors/{author.Id}", author);
 });
 
 app.Run();

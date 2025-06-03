@@ -14,6 +14,22 @@ namespace BlazorPrerendering.Client.Services
             _logger = logger;
         }
 
+        public async Task<Author> CreateAuthor(Author author)
+        {
+            var response = await _httpClient.PostAsJsonAsync("/api/authors", author);
+
+            if (response.IsSuccessStatusCode)
+            {
+                _logger.LogInformation("Author created successfully");
+                 return await response.Content.ReadFromJsonAsync<Author>() ?? throw new HttpRequestException("Failed to deserialize JSON");
+            }
+            else
+            {
+                _logger.LogError("Failed to create author");
+                throw new HttpRequestException("Failed to create author");
+            }
+        }
+
         public Task<IEnumerable<Author>?> GetAuthors()
         {
             _logger.LogInformation("GetAuthors called");

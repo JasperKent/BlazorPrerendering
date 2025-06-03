@@ -6,5 +6,7 @@ namespace BlazorPrerendering.Client.Services
     {
         Task<IEnumerable<Book>?> GetBooks();
         Task<IEnumerable<Author>?> GetAuthors();
+        Task<Author> CreateAuthor(Author author);
+
     }
 }
