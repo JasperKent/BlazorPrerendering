@@ -63,7 +63,7 @@ void CreateData()
     using var scope = app.Services.CreateScope();
     using var db = scope.ServiceProvider.GetRequiredService<LibraryContext>();
 
-    db.Database.EnsureCreated();
+    db.Database.Migrate();
 
     if (!db.Books.Any())
         db.Books.AddRange(DummyData.Books);
@@ -71,7 +71,7 @@ void CreateData()
     if (!db.Authors.Any())
     {
         db.Authors.AddRange(DummyData.Authors);
-        db.Authors.Add(new() { FirstName = "Jasper", LastName = "Kent" });
+        db.Authors.Add(new() { FirstName = "Jasper", Surname = "Kent" });
     }
 
     db.SaveChanges();

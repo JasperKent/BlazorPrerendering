@@ -1,6 +1,7 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
 var db = builder.AddSqlServer("sql-server")
+                .WithDataVolume("library-data")
                 .WithLifetime(ContainerLifetime.Persistent)
                 .AddDatabase("LibraryDb");
 

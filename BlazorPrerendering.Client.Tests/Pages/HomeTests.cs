@@ -61,9 +61,9 @@ public class HomeTests : TestContext
     {
         var authors = new[]
         {
-            new Author { Id = 1, FirstName = "Author 1", LastName = "One" },
-            new Author { Id = 2, FirstName = "Author 2", LastName = "Two" },
-            new Author { Id = 3, FirstName = "Author 3", LastName = "Three" },
+            new Author { Id = 1, FirstName = "Author 1", Surname = "One" },
+            new Author { Id = 2, FirstName = "Author 2", Surname = "Two" },
+            new Author { Id = 3, FirstName = "Author 3", Surname = "Three" },
         };
 
         _apiService.GetBooks().Returns([]);

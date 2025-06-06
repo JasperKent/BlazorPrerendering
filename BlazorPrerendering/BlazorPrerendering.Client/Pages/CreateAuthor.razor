@@ -14,7 +14,11 @@
         </div>
         <div>
             <label for="lastName">Last Name:</label>
-            <InputText id="lastName" @bind-Value="_author.LastName" />
+            <InputText id="lastName" @bind-Value="_author.Surname" />
+        </div>
+        <div>
+            <label for="nationality">Nationality:</label>
+            <InputText id="nationality" @bind-Value="_author.Nationality" />
         </div>
         <button type="submit">Create Author</button>
     </fieldset>
@@ -26,7 +30,7 @@
 }
 
 @code {
-    private Author _author = new Author { FirstName = "", LastName = "" };
+    private Author _author = new Author { FirstName = "", Surname = "" };
     string? _message;
 
     private async Task Submit()

@@ -14,7 +14,7 @@ public class DummyData
 
     public static List<Author> Authors { get; } =
     [
-        new () { FirstName = "Jane", LastName = "Austen" },
-        new () { FirstName = "Ian", LastName = "Fleming" }
+        new () { FirstName = "Jane", Surname = "Austen" },
+        new () { FirstName = "Ian", Surname = "Fleming" }
     ];
 }
